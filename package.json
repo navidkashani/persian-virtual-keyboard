@@ -1,0 +1,49 @@
+{
+  "name": "persian-virtual-keyboard",
+  "version": "0.1.0",
+  "description": "Zero-dependency vanilla Web Component for typing Persian text in the browser. ISIRI 9147 standard layout.",
+  "type": "module",
+  "main": "dist/persian-keyboard.js",
+  "module": "dist/persian-keyboard.js",
+  "exports": {
+    ".": {
+      "import": "./dist/persian-keyboard.js"
+    },
+    "./react": {
+      "import": "./dist/react/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "persian",
+    "farsi",
+    "keyboard",
+    "virtual-keyboard",
+    "web-component",
+    "isiri-9147",
+    "rtl"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "jsdom": "^29.0.1",
+    "vite": "^6.3.1",
+    "vitest": "^3.1.1"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  }
+}

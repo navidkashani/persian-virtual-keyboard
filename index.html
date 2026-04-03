@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Persian Virtual Keyboard — Demo</title>
+  <style>
+    :root {
+      --demo-bg: #f8f9fa;
+      --demo-card: #ffffff;
+      --demo-text: #1a1a1a;
+      --demo-muted: #666;
+      --demo-border: #e0e0e0;
+      --demo-accent: #4a90d9;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --demo-bg: #1a1a1a;
+        --demo-card: #2a2a2a;
+        --demo-text: #e0e0e0;
+        --demo-muted: #999;
+        --demo-border: #444;
+        --demo-accent: #6aadeb;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background: var(--demo-bg);
+      color: var(--demo-text);
+      padding: 2rem 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    h1 { margin-bottom: 0.5rem; font-size: 1.5rem; }
+    .subtitle { color: var(--demo-muted); margin-bottom: 1.5rem; font-size: 0.9rem; }
+    .card {
+      background: var(--demo-card);
+      border: 1px solid var(--demo-border);
+      border-radius: 10px;
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .card h2 { font-size: 1.1rem; margin-bottom: 0.8rem; }
+    .controls { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+    .control-group { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; }
+    .control-group label { white-space: nowrap; }
+    .output-box {
+      direction: rtl;
+      text-align: right;
+      padding: 10px;
+      min-height: 50px;
+      background: var(--demo-bg);
+      border: 1px solid var(--demo-border);
+      border-radius: 6px;
+      font-family: Tahoma, Arial, sans-serif;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 0.95rem;
+    }
+    .code-block {
+      direction: ltr;
+      text-align: left;
+      background: var(--demo-bg);
+      border: 1px solid var(--demo-border);
+      border-radius: 6px;
+      padding: 10px;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.8rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      padding: 2px 8px;
+      border: 1px solid var(--demo-border);
+      border-radius: 4px;
+      background: var(--demo-card);
+      color: var(--demo-text);
+      cursor: pointer;
+      font-size: 0.75rem;
+    }
+    .copy-btn:active { opacity: 0.7; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      background: var(--demo-accent);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>صفحه‌کلید مجازی فارسی</h1>
+  <p class="subtitle">
+    <span class="badge">v0.1.0</span>
+    Zero-dependency vanilla Web Component — ISIRI 9147 standard layout
+  </p>
+
+  <!-- Keyboard -->
+  <div class="card">
+    <persian-keyboard
+      id="kb"
+      show-english-value="true"
+      show-shifted-value="true"
+    ></persian-keyboard>
+  </div>
+
+  <!-- Live Output -->
+  <div class="card">
+    <h2>خروجی زنده</h2>
+    <div class="output-box" id="output">متن تایپ‌شده اینجا نمایش داده می‌شود...</div>
+  </div>
+
+  <!-- Controls -->
+  <div class="card">
+    <h2>تنظیمات</h2>
+    <div class="controls">
+      <div class="control-group">
+        <input type="checkbox" id="chkEnglish" checked />
+        <label for="chkEnglish">show-english-value</label>
+      </div>
+      <div class="control-group">
+        <input type="checkbox" id="chkShifted" checked />
+        <label for="chkShifted">show-shifted-value</label>
+      </div>
+      <div class="control-group">
+        <input type="checkbox" id="chkDisabled" />
+        <label for="chkDisabled">disabled</label>
+      </div>
+      <div class="control-group">
+        <input type="checkbox" id="chkReadonly" />
+        <label for="chkReadonly">readonly</label>
+      </div>
+    </div>
+    <hr style="margin: 1rem 0; border: none; border-top: 1px solid var(--demo-border);">
+    <h2>رنگ‌ها</h2>
+    <div class="controls">
+      <div class="control-group">
+        <label for="clrBtnBg">Button BG</label>
+        <input type="color" id="clrBtnBg" value="#ececec" />
+      </div>
+      <div class="control-group">
+        <label for="clrBtnText">Button Text</label>
+        <input type="color" id="clrBtnText" value="#000000" />
+      </div>
+      <div class="control-group">
+        <label for="clrShifted">Shifted</label>
+        <input type="color" id="clrShifted" value="#ff0000" />
+      </div>
+      <div class="control-group">
+        <label for="clrEnglish">English</label>
+        <input type="color" id="clrEnglish" value="#0000ff" />
+      </div>
+      <div class="control-group">
+        <label for="clrTextareaBg">Textarea BG</label>
+        <input type="color" id="clrTextareaBg" value="#ffffff" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Code Snippets -->
+  <div class="card">
+    <h2>نحوه استفاده</h2>
+
+    <h3 style="font-size:0.9rem; margin: 0.8rem 0 0.4rem;">ES Module</h3>
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre>import './src/persian-keyboard.js';
+
+// Then use in HTML:
+// &lt;persian-keyboard&gt;&lt;/persian-keyboard&gt;</pre>
+    </div>
+
+    <h3 style="font-size:0.9rem; margin: 0.8rem 0 0.4rem;">React</h3>
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre>import { PersianKeyboard } from 'persian-virtual-keyboard/react';
+
+function App() {
+  return &lt;PersianKeyboard
+    showEnglishValue
+    onPersianChange={(e) =&gt; console.log(e.detail.value)}
+  /&gt;;
+}</pre>
+    </div>
+  </div>
+
+  <script type="module" src="/src/persian-keyboard.js"></script>
+  <script>
+    const kb = document.getElementById('kb');
+    const output = document.getElementById('output');
+
+    // Live output
+    kb.addEventListener('persian-change', (e) => {
+      output.textContent = e.detail.value || 'متن تایپ‌شده اینجا نمایش داده می‌شود...';
+    });
+
+    // Attribute toggles
+    document.getElementById('chkEnglish').addEventListener('change', (e) => {
+      if (e.target.checked) kb.setAttribute('show-english-value', 'true');
+      else kb.removeAttribute('show-english-value');
+    });
+    document.getElementById('chkShifted').addEventListener('change', (e) => {
+      if (e.target.checked) kb.setAttribute('show-shifted-value', 'true');
+      else kb.removeAttribute('show-shifted-value');
+    });
+    document.getElementById('chkDisabled').addEventListener('change', (e) => {
+      if (e.target.checked) kb.setAttribute('disabled', '');
+      else kb.removeAttribute('disabled');
+    });
+    document.getElementById('chkReadonly').addEventListener('change', (e) => {
+      if (e.target.checked) kb.setAttribute('readonly', '');
+      else kb.removeAttribute('readonly');
+    });
+
+    // Color controls
+    document.getElementById('clrBtnBg').addEventListener('input', (e) => {
+      kb.style.setProperty('--button-background-color', e.target.value);
+    });
+    document.getElementById('clrBtnText').addEventListener('input', (e) => {
+      kb.style.setProperty('--button-color', e.target.value);
+    });
+    document.getElementById('clrShifted').addEventListener('input', (e) => {
+      kb.style.setProperty('--button-shifted-color', e.target.value);
+    });
+    document.getElementById('clrEnglish').addEventListener('input', (e) => {
+      kb.style.setProperty('--button-eng-color', e.target.value);
+    });
+    document.getElementById('clrTextareaBg').addEventListener('input', (e) => {
+      kb.style.setProperty('--textarea-background-color', e.target.value);
+    });
+
+    // Copy button
+    function copyCode(btn) {
+      const pre = btn.parentElement.querySelector('pre');
+      navigator.clipboard.writeText(pre.textContent).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 1500);
+      });
+    }
+    window.copyCode = copyCode;
+  </script>
+</body>
+</html>
