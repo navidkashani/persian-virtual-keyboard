@@ -411,10 +411,24 @@
   <div class="card">
     <h2>How to Use</h2>
 
+    <h3>CDN (easiest)</h3>
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre>&lt;script type="module" src="https://cdn.jsdelivr.net/npm/persian-virtual-keyboard/dist/persian-keyboard.js"&gt;&lt;/script&gt;
+
+&lt;persian-keyboard&gt;&lt;/persian-keyboard&gt;</pre>
+    </div>
+
+    <h3>npm</h3>
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre>npm install persian-virtual-keyboard</pre>
+    </div>
+
     <h3>ES Module</h3>
     <div class="code-block">
       <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-      <pre>import './src/persian-keyboard.js';
+      <pre>import 'persian-virtual-keyboard';
 
 // Then use in HTML:
 // &lt;persian-keyboard&gt;&lt;/persian-keyboard&gt;</pre>
