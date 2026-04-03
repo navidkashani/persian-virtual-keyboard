@@ -1,5 +1,8 @@
 # Persian Virtual Keyboard
 
+[![npm version](https://img.shields.io/npm/v/persian-virtual-keyboard)](https://www.npmjs.com/package/persian-virtual-keyboard)
+[![license](https://img.shields.io/npm/l/persian-virtual-keyboard)](./LICENSE)
+
 A zero-dependency vanilla Web Component for typing Persian (Farsi) text in the browser. Uses the **ISIRI 9147** standard keyboard layout.
 
 ## Features
