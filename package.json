@@ -1,6 +1,6 @@
 {
   "name": "persian-virtual-keyboard",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Zero-dependency vanilla Web Component for typing Persian text in the browser. ISIRI 9147 standard layout.",
   "type": "module",
   "main": "dist/persian-keyboard.js",

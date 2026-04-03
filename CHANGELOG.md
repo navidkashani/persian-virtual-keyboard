@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.1
+- Fix CapsLock (Latin mode) to switch ALL keys to English — digits, punctuation, brackets, and all other keys now produce their English QWERTY equivalents across physical keyboard, virtual clicks, display labels, and paste
+
 ## 0.2.0
 
 - Remove Text-to-Speech feature (no browser ships a Persian voice)
