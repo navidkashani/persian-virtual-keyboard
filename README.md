@@ -99,12 +99,12 @@ All visual aspects are customizable via CSS custom properties:
 
 ```css
 persian-keyboard {
-  --button-background-color: #ececec;
-  --button-active-background-color: #d6d6d6;
-  --button-hover-background-color: #e0e0e0;
-  --button-color: #000000;
-  --button-shifted-color: #ff0000;
-  --button-eng-color: #0000ff;
+  --button-background-color: #f0f0f3;
+  --button-active-background-color: #d4d4db;
+  --button-hover-background-color: #e4e4e9;
+  --button-color: #1a1a2e;
+  --button-shifted-color: #c2185b;
+  --button-eng-color: #5c6bc0;
   --font-size: 18px;
   --row-height: 50px;
   --max-keyboard-width: 800px;

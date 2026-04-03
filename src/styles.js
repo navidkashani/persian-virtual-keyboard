@@ -18,18 +18,18 @@ export const STYLES = `
   font-family: inherit;
   font-size: inherit;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #d4d4db;
   border-radius: 6px;
   box-sizing: border-box;
   outline: none;
   background: var(--textarea-background-color, #ffffff);
-  color: var(--button-color, #000000);
+  color: var(--button-color, #1a1a2e);
   line-height: 1.6;
 }
 
 .textarea:focus {
-  border-color: #4a90d9;
-  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.25);
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 2px rgba(74, 108, 247, 0.25);
 }
 
 .textarea[disabled] {
@@ -98,8 +98,8 @@ export const STYLES = `
   height: 100%;
   border: 1px solid transparent;
   border-radius: var(--border-radius, 6px);
-  background: var(--button-background-color, #ececec);
-  color: var(--button-color, #000000);
+  background: var(--button-background-color, #f0f0f3);
+  color: var(--button-color, #1a1a2e);
   font-family: inherit;
   font-size: inherit;
   cursor: pointer;
@@ -111,12 +111,12 @@ export const STYLES = `
 }
 
 .button:hover {
-  background: var(--button-hover-background-color, #e0e0e0);
+  background: var(--button-hover-background-color, #e4e4e9);
 }
 
 .button:active,
 .button.active {
-  background: var(--button-active-background-color, #d6d6d6);
+  background: var(--button-active-background-color, #d4d4db);
 }
 
 .button[disabled] {
@@ -137,7 +137,7 @@ export const STYLES = `
   top: 3px;
   right: 5px;
   font-size: 0.55em;
-  color: var(--button-shifted-color, #ff0000);
+  color: var(--button-shifted-color, #c2185b);
   line-height: 1;
   pointer-events: none;
 }
@@ -147,7 +147,7 @@ export const STYLES = `
   top: 3px;
   left: 5px;
   font-size: 0.55em;
-  color: var(--button-eng-color, #0000ff);
+  color: var(--button-eng-color, #5c6bc0);
   line-height: 1;
   pointer-events: none;
 }
@@ -167,14 +167,14 @@ export const STYLES = `
 }
 
 .button.capslock-active {
-  background: var(--button-active-background-color, #d6d6d6);
-  box-shadow: inset 0 0 0 2px #4a90d9;
+  background: var(--button-active-background-color, #d4d4db);
+  box-shadow: inset 0 0 0 2px #4a6cf7;
 }
 
 /* ── Key Highlight Animation ── */
 @keyframes key-flash {
-  0% { background: var(--button-active-background-color, #d6d6d6); }
-  100% { background: var(--button-background-color, #ececec); }
+  0% { background: var(--button-active-background-color, #d4d4db); }
+  100% { background: var(--button-background-color, #f0f0f3); }
 }
 
 .button.highlight {
@@ -184,7 +184,7 @@ export const STYLES = `
 @media (prefers-reduced-motion: reduce) {
   .button.highlight {
     animation: none;
-    background: var(--button-active-background-color, #d6d6d6);
+    background: var(--button-active-background-color, #d4d4db);
   }
 }
 
@@ -212,7 +212,7 @@ export const STYLES = `
 
 .help-dialog {
   background: var(--textarea-background-color, #ffffff);
-  color: var(--button-color, #000000);
+  color: var(--button-color, #1a1a2e);
   border-radius: 10px;
   padding: 20px;
   max-width: 400px;
@@ -230,12 +230,12 @@ export const STYLES = `
 }
 
 .help-dialog kbd {
-  background: var(--button-background-color, #ececec);
+  background: var(--button-background-color, #f0f0f3);
   padding: 2px 6px;
   border-radius: 4px;
   font-family: monospace;
   font-size: 0.9em;
-  border: 1px solid #ccc;
+  border: 1px solid #d4d4db;
 }
 
 .help-dialog .close-btn {
@@ -244,8 +244,8 @@ export const STYLES = `
   padding: 6px 20px;
   border: none;
   border-radius: 6px;
-  background: var(--button-background-color, #ececec);
-  color: var(--button-color, #000000);
+  background: var(--button-background-color, #f0f0f3);
+  color: var(--button-color, #1a1a2e);
   cursor: pointer;
   font-family: inherit;
 }
@@ -253,52 +253,60 @@ export const STYLES = `
 /* ── Dark Mode ── */
 @media (prefers-color-scheme: dark) {
   .textarea {
-    background: var(--textarea-background-color, #2a2a2a);
-    color: var(--button-color, #e0e0e0);
-    border-color: #555;
+    background: var(--textarea-background-color, #1e1e2a);
+    color: var(--button-color, #e2e2ec);
+    border-color: #4a4a5e;
   }
 
   .textarea:focus {
-    border-color: #6aadeb;
-    box-shadow: 0 0 0 2px rgba(106, 173, 235, 0.3);
+    border-color: #7c8cf8;
+    box-shadow: 0 0 0 2px rgba(124, 140, 248, 0.3);
   }
 
   .textarea[readonly] {
-    background: var(--textarea-background-color, #333);
+    background: var(--textarea-background-color, #282835);
   }
 
   .button {
-    background: var(--button-background-color, #3a3a3a);
-    color: var(--button-color, #e0e0e0);
+    background: var(--button-background-color, #2d2d3a);
+    color: var(--button-color, #e2e2ec);
   }
 
   .button:hover {
-    background: var(--button-hover-background-color, #4a4a4a);
+    background: var(--button-hover-background-color, #3c3c4d);
   }
 
   .button:active,
   .button.active {
-    background: var(--button-active-background-color, #555);
+    background: var(--button-active-background-color, #4a4a5e);
+  }
+
+  .shifted_value {
+    color: var(--button-shifted-color, #f06292);
+  }
+
+  .english_value {
+    color: var(--button-eng-color, #9fa8da);
   }
 
   .help-dialog {
-    background: var(--textarea-background-color, #2a2a2a);
-    color: var(--button-color, #e0e0e0);
+    background: var(--textarea-background-color, #1e1e2a);
+    color: var(--button-color, #e2e2ec);
   }
 
   .help-dialog kbd {
-    background: var(--button-background-color, #3a3a3a);
-    border-color: #555;
+    background: var(--button-background-color, #2d2d3a);
+    border-color: #4a4a5e;
   }
 
   .help-dialog .close-btn {
-    background: var(--button-background-color, #3a3a3a);
-    color: var(--button-color, #e0e0e0);
+    background: var(--button-background-color, #2d2d3a);
+    color: var(--button-color, #e2e2ec);
   }
 
   @keyframes key-flash {
-    0% { background: var(--button-active-background-color, #555); }
-    100% { background: var(--button-background-color, #3a3a3a); }
+    0% { background: var(--button-active-background-color, #4a4a5e); }
+    100% { background: var(--button-background-color, #2d2d3a); }
   }
 }
 
