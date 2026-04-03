@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,6 +43,7 @@
       margin-bottom: 1.2rem;
     }
     .card h2 { font-size: 1.1rem; margin-bottom: 0.8rem; }
+    .card h3 { font-size: 0.9rem; margin: 0.8rem 0 0.4rem; }
     .controls { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
     .control-group { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; }
     .control-group label { white-space: nowrap; }
@@ -92,16 +93,132 @@
       background: var(--demo-accent);
       color: #fff;
     }
+    hr.divider {
+      margin: 1rem 0;
+      border: none;
+      border-top: 1px solid var(--demo-border);
+    }
+
+    /* Event Logger */
+    .event-log {
+      direction: ltr;
+      text-align: left;
+      max-height: 200px;
+      overflow-y: auto;
+      background: var(--demo-bg);
+      border: 1px solid var(--demo-border);
+      border-radius: 6px;
+      padding: 8px;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+    .event-log:empty::before {
+      content: "Events will appear here...";
+      color: var(--demo-muted);
+    }
+    .event-log .log-entry { padding: 2px 0; border-bottom: 1px solid var(--demo-border); }
+    .event-log .log-entry:last-child { border-bottom: none; }
+    .event-log .log-time { color: var(--demo-muted); }
+    .event-log .log-name-input { color: #2196f3; }
+    .event-log .log-name-change { color: #4caf50; }
+    .event-log .log-name-submit { color: #ff9800; }
+
+    /* API Playground */
+    .api-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .api-btn {
+      padding: 6px 14px;
+      border: 1px solid var(--demo-border);
+      border-radius: 6px;
+      background: var(--demo-bg);
+      color: var(--demo-text);
+      cursor: pointer;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.8rem;
+      transition: background 0.15s;
+    }
+    .api-btn:hover { background: var(--demo-accent); color: #fff; }
+    .api-btn:active { opacity: 0.8; }
+    .api-result {
+      direction: ltr;
+      text-align: left;
+      margin-top: 0.6rem;
+      padding: 8px;
+      background: var(--demo-bg);
+      border: 1px solid var(--demo-border);
+      border-radius: 6px;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.8rem;
+      min-height: 32px;
+      color: var(--demo-muted);
+    }
+
+    /* Slider controls */
+    .slider-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+    }
+    .slider-group label { white-space: nowrap; min-width: 130px; }
+    .slider-group input[type="range"] { flex: 1; max-width: 180px; }
+    .slider-group .slider-value {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.78rem;
+      color: var(--demo-muted);
+      min-width: 42px;
+    }
+
+    /* Mapping & Shortcuts tables */
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .ref-table th, .ref-table td {
+      padding: 6px 10px;
+      border: 1px solid var(--demo-border);
+      text-align: center;
+    }
+    .ref-table th {
+      background: var(--demo-bg);
+      font-weight: 600;
+    }
+    .ref-table td { font-family: Tahoma, Arial, sans-serif; }
+    .ref-table .key-cell {
+      direction: ltr;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.85rem;
+    }
+    .ref-table .char-cell { font-size: 1.1rem; }
+
+    /* Clear / small button */
+    .btn-sm {
+      padding: 3px 10px;
+      border: 1px solid var(--demo-border);
+      border-radius: 4px;
+      background: var(--demo-card);
+      color: var(--demo-text);
+      cursor: pointer;
+      font-size: 0.78rem;
+    }
+    .btn-sm:hover { background: var(--demo-bg); }
+
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
-  <h1>صفحه‌کلید مجازی فارسی</h1>
+  <h1>Persian Virtual Keyboard</h1>
   <p class="subtitle">
     <span class="badge">v0.1.0</span>
     Zero-dependency vanilla Web Component — ISIRI 9147 standard layout
   </p>
 
-  <!-- Keyboard -->
+  <!-- 1. Keyboard -->
   <div class="card">
     <persian-keyboard
       id="kb"
@@ -110,15 +227,36 @@
     ></persian-keyboard>
   </div>
 
-  <!-- Live Output -->
+  <!-- 2. Live Output + Event Logger -->
   <div class="card">
-    <h2>خروجی زنده</h2>
-    <div class="output-box" id="output">متن تایپ‌شده اینجا نمایش داده می‌شود...</div>
+    <h2>Live Output</h2>
+    <div class="output-box" id="output">Typed text will appear here...</div>
+
+    <hr class="divider">
+
+    <div class="flex-between">
+      <h2 style="margin-bottom:0">Event Log</h2>
+      <button class="btn-sm" id="clearLog">Clear</button>
+    </div>
+    <div class="event-log" id="eventLog" style="margin-top:0.5rem"></div>
   </div>
 
-  <!-- Controls -->
+  <!-- 3. JS API Playground -->
   <div class="card">
-    <h2>تنظیمات</h2>
+    <h2>API Playground</h2>
+    <div class="api-buttons">
+      <button class="api-btn" id="apiSetValue">setValue('سلام دنیا')</button>
+      <button class="api-btn" id="apiResetValue">resetValue()</button>
+      <button class="api-btn" id="apiFocus">focus()</button>
+      <button class="api-btn" id="apiBlur">blur()</button>
+      <button class="api-btn" id="apiGetValue">getTextAreaValue()</button>
+    </div>
+    <div class="api-result" id="apiResult">API result will appear here...</div>
+  </div>
+
+  <!-- 4. Settings — attributes + colors + sizing sliders -->
+  <div class="card">
+    <h2>Settings</h2>
     <div class="controls">
       <div class="control-group">
         <input type="checkbox" id="chkEnglish" checked />
@@ -137,8 +275,9 @@
         <label for="chkReadonly">readonly</label>
       </div>
     </div>
-    <hr style="margin: 1rem 0; border: none; border-top: 1px solid var(--demo-border);">
-    <h2>رنگ‌ها</h2>
+
+    <hr class="divider">
+    <h2>Colors</h2>
     <div class="controls">
       <div class="control-group">
         <label for="clrBtnBg">Button BG</label>
@@ -161,13 +300,115 @@
         <input type="color" id="clrTextareaBg" value="#ffffff" />
       </div>
     </div>
+
+    <hr class="divider">
+    <h2>Sizing</h2>
+    <div style="display:flex; flex-direction:column; gap:0.6rem;">
+      <div class="slider-group">
+        <label for="sliderFontSize">--font-size</label>
+        <input type="range" id="sliderFontSize" min="12" max="28" value="18" />
+        <span class="slider-value" id="valFontSize">18px</span>
+      </div>
+      <div class="slider-group">
+        <label for="sliderRowHeight">--row-height</label>
+        <input type="range" id="sliderRowHeight" min="30" max="70" value="50" />
+        <span class="slider-value" id="valRowHeight">50px</span>
+      </div>
+      <div class="slider-group">
+        <label for="sliderBorderRadius">--border-radius</label>
+        <input type="range" id="sliderBorderRadius" min="0" max="20" value="6" />
+        <span class="slider-value" id="valBorderRadius">6px</span>
+      </div>
+      <div class="slider-group">
+        <label for="sliderRowGap">--keyboard-row-gap</label>
+        <input type="range" id="sliderRowGap" min="0" max="12" value="4" />
+        <span class="slider-value" id="valRowGap">4px</span>
+      </div>
+    </div>
   </div>
 
-  <!-- Code Snippets -->
+  <!-- 5. Key Mapping Table -->
   <div class="card">
-    <h2>نحوه استفاده</h2>
+    <h2>Key Mapping (ISIRI 9147)</h2>
+    <div style="overflow-x:auto;">
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>English Key</th>
+            <th>Persian Character</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Row 2 -->
+          <tr><td class="key-cell">q</td><td class="char-cell">ض</td><td>ضاد</td></tr>
+          <tr><td class="key-cell">w</td><td class="char-cell">ص</td><td>صاد</td></tr>
+          <tr><td class="key-cell">e</td><td class="char-cell">ث</td><td>ثاء</td></tr>
+          <tr><td class="key-cell">r</td><td class="char-cell">ق</td><td>قاف</td></tr>
+          <tr><td class="key-cell">t</td><td class="char-cell">ف</td><td>فاء</td></tr>
+          <tr><td class="key-cell">y</td><td class="char-cell">غ</td><td>غین</td></tr>
+          <tr><td class="key-cell">u</td><td class="char-cell">ع</td><td>عین</td></tr>
+          <tr><td class="key-cell">i</td><td class="char-cell">ه</td><td>هاء</td></tr>
+          <tr><td class="key-cell">o</td><td class="char-cell">خ</td><td>خاء</td></tr>
+          <tr><td class="key-cell">p</td><td class="char-cell">ح</td><td>حاء</td></tr>
+          <tr><td class="key-cell">[</td><td class="char-cell">ج</td><td>جیم</td></tr>
+          <tr><td class="key-cell">]</td><td class="char-cell">چ</td><td>چه</td></tr>
+          <!-- Row 3 -->
+          <tr><td class="key-cell">a</td><td class="char-cell">ش</td><td>شین</td></tr>
+          <tr><td class="key-cell">s</td><td class="char-cell">س</td><td>سین</td></tr>
+          <tr><td class="key-cell">d</td><td class="char-cell">ی</td><td>یاء</td></tr>
+          <tr><td class="key-cell">f</td><td class="char-cell">ب</td><td>باء</td></tr>
+          <tr><td class="key-cell">g</td><td class="char-cell">ل</td><td>لام</td></tr>
+          <tr><td class="key-cell">h</td><td class="char-cell">ا</td><td>الف</td></tr>
+          <tr><td class="key-cell">j</td><td class="char-cell">ت</td><td>تاء</td></tr>
+          <tr><td class="key-cell">k</td><td class="char-cell">ن</td><td>نون</td></tr>
+          <tr><td class="key-cell">l</td><td class="char-cell">م</td><td>میم</td></tr>
+          <tr><td class="key-cell">;</td><td class="char-cell">ک</td><td>کاف</td></tr>
+          <tr><td class="key-cell">'</td><td class="char-cell">گ</td><td>گاف</td></tr>
+          <!-- Row 4 -->
+          <tr><td class="key-cell">z</td><td class="char-cell">ظ</td><td>ظاء</td></tr>
+          <tr><td class="key-cell">x</td><td class="char-cell">ط</td><td>طاء</td></tr>
+          <tr><td class="key-cell">c</td><td class="char-cell">ز</td><td>زاء</td></tr>
+          <tr><td class="key-cell">v</td><td class="char-cell">ر</td><td>راء</td></tr>
+          <tr><td class="key-cell">b</td><td class="char-cell">ذ</td><td>ذال</td></tr>
+          <tr><td class="key-cell">n</td><td class="char-cell">د</td><td>دال</td></tr>
+          <tr><td class="key-cell">m</td><td class="char-cell">پ</td><td>په</td></tr>
+          <tr><td class="key-cell">,</td><td class="char-cell">و</td><td>واو</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-    <h3 style="font-size:0.9rem; margin: 0.8rem 0 0.4rem;">ES Module</h3>
+  <!-- 6. Keyboard Shortcuts -->
+  <div class="card">
+    <h2>Keyboard Shortcuts</h2>
+    <div style="overflow-x:auto;">
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Shortcut</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="key-cell">Shift + Space</td><td>Insert Half-Space (ZWNJ)</td></tr>
+          <tr><td class="key-cell">CapsLock</td><td>Toggle Persian / Latin Mode</td></tr>
+          <tr><td class="key-cell">Ctrl/&#8984; + Z</td><td>Undo</td></tr>
+          <tr><td class="key-cell">Ctrl/&#8984; + Shift + Z</td><td>Redo</td></tr>
+          <tr><td class="key-cell">Ctrl/&#8984; + A</td><td>Select All</td></tr>
+          <tr><td class="key-cell">Ctrl/&#8984; + C</td><td>Copy</td></tr>
+          <tr><td class="key-cell">Ctrl/&#8984; + V</td><td>Paste</td></tr>
+          <tr><td class="key-cell">Ctrl/&#8984; + X</td><td>Cut</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 7. Code Snippets -->
+  <div class="card">
+    <h2>How to Use</h2>
+
+    <h3>ES Module</h3>
     <div class="code-block">
       <button class="copy-btn" onclick="copyCode(this)">Copy</button>
       <pre>import './src/persian-keyboard.js';
@@ -176,7 +417,7 @@
 // &lt;persian-keyboard&gt;&lt;/persian-keyboard&gt;</pre>
     </div>
 
-    <h3 style="font-size:0.9rem; margin: 0.8rem 0 0.4rem;">React</h3>
+    <h3>React</h3>
     <div class="code-block">
       <button class="copy-btn" onclick="copyCode(this)">Copy</button>
       <pre>import { PersianKeyboard } from 'persian-virtual-keyboard/react';
@@ -194,48 +435,106 @@ function App() {
   <script>
     const kb = document.getElementById('kb');
     const output = document.getElementById('output');
+    const eventLog = document.getElementById('eventLog');
+    const apiResult = document.getElementById('apiResult');
+    const MAX_LOG_ENTRIES = 200;
+    const timeFmt = new Intl.DateTimeFormat('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const EVENT_CLASSES = {
+      'persian-input': 'log-name-input',
+      'persian-change': 'log-name-change',
+      'persian-submit': 'log-name-submit',
+    };
 
-    // Live output
+    function logEvent(name, detail) {
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+
+      const timeSpan = document.createElement('span');
+      timeSpan.className = 'log-time';
+      timeSpan.textContent = timeFmt.format(new Date());
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = EVENT_CLASSES[name] || '';
+      nameSpan.textContent = ' ' + name + ' ';
+
+      entry.appendChild(timeSpan);
+      entry.appendChild(nameSpan);
+      entry.appendChild(document.createTextNode(JSON.stringify(detail)));
+
+      if (eventLog.children.length >= MAX_LOG_ENTRIES) {
+        eventLog.removeChild(eventLog.firstChild);
+      }
+      eventLog.appendChild(entry);
+      requestAnimationFrame(() => { eventLog.scrollTop = eventLog.scrollHeight; });
+    }
+
+    kb.addEventListener('persian-input', (e) => logEvent('persian-input', e.detail));
     kb.addEventListener('persian-change', (e) => {
-      output.textContent = e.detail.value || 'متن تایپ‌شده اینجا نمایش داده می‌شود...';
+      output.textContent = e.detail.value || 'Typed text will appear here...';
+      logEvent('persian-change', e.detail);
+    });
+    kb.addEventListener('persian-submit', (e) => logEvent('persian-submit', e.detail));
+    document.getElementById('clearLog').addEventListener('click', () => {
+      eventLog.innerHTML = '';
     });
 
-    // Attribute toggles
-    document.getElementById('chkEnglish').addEventListener('change', (e) => {
-      if (e.target.checked) kb.setAttribute('show-english-value', 'true');
-      else kb.removeAttribute('show-english-value');
+    document.getElementById('apiSetValue').addEventListener('click', () => {
+      kb.setValue('سلام دنیا');
+      apiResult.textContent = "setValue('سلام دنیا') — done";
     });
-    document.getElementById('chkShifted').addEventListener('change', (e) => {
-      if (e.target.checked) kb.setAttribute('show-shifted-value', 'true');
-      else kb.removeAttribute('show-shifted-value');
+    document.getElementById('apiResetValue').addEventListener('click', () => {
+      kb.resetValue();
+      apiResult.textContent = 'resetValue() — done';
     });
-    document.getElementById('chkDisabled').addEventListener('change', (e) => {
-      if (e.target.checked) kb.setAttribute('disabled', '');
-      else kb.removeAttribute('disabled');
+    document.getElementById('apiFocus').addEventListener('click', () => {
+      kb.focus();
+      apiResult.textContent = 'focus() — done';
     });
-    document.getElementById('chkReadonly').addEventListener('change', (e) => {
-      if (e.target.checked) kb.setAttribute('readonly', '');
-      else kb.removeAttribute('readonly');
+    document.getElementById('apiBlur').addEventListener('click', () => {
+      kb.blur();
+      apiResult.textContent = 'blur() — done';
     });
-
-    // Color controls
-    document.getElementById('clrBtnBg').addEventListener('input', (e) => {
-      kb.style.setProperty('--button-background-color', e.target.value);
-    });
-    document.getElementById('clrBtnText').addEventListener('input', (e) => {
-      kb.style.setProperty('--button-color', e.target.value);
-    });
-    document.getElementById('clrShifted').addEventListener('input', (e) => {
-      kb.style.setProperty('--button-shifted-color', e.target.value);
-    });
-    document.getElementById('clrEnglish').addEventListener('input', (e) => {
-      kb.style.setProperty('--button-eng-color', e.target.value);
-    });
-    document.getElementById('clrTextareaBg').addEventListener('input', (e) => {
-      kb.style.setProperty('--textarea-background-color', e.target.value);
+    document.getElementById('apiGetValue').addEventListener('click', () => {
+      const val = kb.getTextAreaValue();
+      apiResult.textContent = 'getTextAreaValue() → "' + val + '"';
     });
 
-    // Copy button
+    function bindToggle(checkboxId, attr, onValue) {
+      document.getElementById(checkboxId).addEventListener('change', (e) => {
+        if (e.target.checked) kb.setAttribute(attr, onValue);
+        else kb.removeAttribute(attr);
+      });
+    }
+    bindToggle('chkEnglish', 'show-english-value', 'true');
+    bindToggle('chkShifted', 'show-shifted-value', 'true');
+    bindToggle('chkDisabled', 'disabled', '');
+    bindToggle('chkReadonly', 'readonly', '');
+
+    function bindColor(inputId, cssProperty) {
+      document.getElementById(inputId).addEventListener('input', (e) => {
+        kb.style.setProperty(cssProperty, e.target.value);
+      });
+    }
+    bindColor('clrBtnBg', '--button-background-color');
+    bindColor('clrBtnText', '--button-color');
+    bindColor('clrShifted', '--button-shifted-color');
+    bindColor('clrEnglish', '--button-eng-color');
+    bindColor('clrTextareaBg', '--textarea-background-color');
+
+    function bindSlider(sliderId, valueId, cssProperty) {
+      const slider = document.getElementById(sliderId);
+      const display = document.getElementById(valueId);
+      slider.addEventListener('input', () => {
+        const val = slider.value + 'px';
+        display.textContent = val;
+        kb.style.setProperty(cssProperty, val);
+      });
+    }
+    bindSlider('sliderFontSize', 'valFontSize', '--font-size');
+    bindSlider('sliderRowHeight', 'valRowHeight', '--row-height');
+    bindSlider('sliderBorderRadius', 'valBorderRadius', '--border-radius');
+    bindSlider('sliderRowGap', 'valRowGap', '--keyboard-row-gap');
+
     function copyCode(btn) {
       const pre = btn.parentElement.querySelector('pre');
       navigator.clipboard.writeText(pre.textContent).then(() => {
@@ -243,7 +542,6 @@ function App() {
         setTimeout(() => btn.textContent = 'Copy', 1500);
       });
     }
-    window.copyCode = copyCode;
   </script>
 </body>
 </html>
