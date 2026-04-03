@@ -5,7 +5,7 @@
  * @property {string} label - Display label on the key
  * @property {string} title - Accessibility tooltip
  * @property {string} [shifted] - Shifted character
- * @property {'letter'|'number'|'punctuation'|'modifier'|'audio'} type
+ * @property {'letter'|'number'|'punctuation'|'modifier'} type
  * @property {string} [modifierClass] - Optional CSS classes
  */
 

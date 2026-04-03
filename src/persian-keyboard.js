@@ -42,7 +42,6 @@ class PersianKeyboard extends HTMLElement {
   #isMobile = false;
   #showHelp = false;
   #helpOverlay = null;
-  #ttsAvailable = false;
 
   constructor() {
     super();
@@ -73,7 +72,6 @@ class PersianKeyboard extends HTMLElement {
 
     this.shadowRoot.appendChild(container);
 
-    this.#ttsAvailable = typeof speechSynthesis !== 'undefined';
     this.#buildKeyboard(desktop_button_groups);
     this.#syncDisabledReadonly();
     this.#syncInputMode();
@@ -105,9 +103,6 @@ class PersianKeyboard extends HTMLElement {
   disconnectedCallback() {
     this.#ac.abort();
     this.#resizeObserver?.disconnect();
-    if (typeof speechSynthesis !== 'undefined') {
-      speechSynthesis.cancel();
-    }
   }
 
   attributeChangedCallback(name) {
@@ -194,10 +189,6 @@ class PersianKeyboard extends HTMLElement {
         button.dataset.fa = btn.fa;
         button.dataset.type = btn.type;
 
-        if (btn.type === 'audio' && !this.#ttsAvailable) {
-          button.style.display = 'none';
-        }
-
         this.#renderKeyContent(button, btn);
 
         const refKey = btn.en;
@@ -229,7 +220,7 @@ class PersianKeyboard extends HTMLElement {
       button.appendChild(shifted);
     }
 
-    if (showEnglish && btn.en && btn.type !== 'modifier' && btn.type !== 'audio') {
+    if (showEnglish && btn.en && btn.type !== 'modifier') {
       const english = document.createElement('span');
       english.className = 'english_value';
       english.textContent = btn.en.toUpperCase();
@@ -299,8 +290,6 @@ class PersianKeyboard extends HTMLElement {
       if (fa === 'NumberToggle') { this.#state.shift = true; this.#switchLayout(); return; }
       if (fa === 'LetterToggle') { this.#state.shift = false; this.#switchLayout(); return; }
     }
-
-    if (type === 'audio') { this.#speak(); return; }
 
     this.#syncCursorFromTextarea();
 
@@ -441,25 +430,6 @@ class PersianKeyboard extends HTMLElement {
     button.addEventListener('animationend', () => {
       button.classList.remove('highlight');
     }, { once: true });
-  }
-
-  // ── Private: TTS ──
-
-  #speak() {
-    if (!this.#ttsAvailable) return;
-
-    // Compute selected text on demand instead of tracking in state
-    const { selectionStart, selectionEnd, textValue } = this.#state;
-    const selected = selectionStart !== selectionEnd
-      ? textValue.slice(selectionStart, selectionEnd)
-      : '';
-    const text = selected || textValue;
-    if (!text) return;
-
-    speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'fa-IR';
-    speechSynthesis.speak(utterance);
   }
 
   // ── Private: Help Dialog ──

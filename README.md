@@ -16,7 +16,6 @@ A zero-dependency vanilla Web Component for typing Persian (Farsi) text in the b
 - **Undo/Redo** — word-level grouping, 50-entry history
 - **Character normalization** — Arabic Yeh/Kaf → Persian on paste
 - **Responsive** — auto mobile layout at < 600px
-- **Text-to-Speech** — speaks Persian text (when browser supports it)
 - **Custom events** — `persian-input`, `persian-change`, `persian-submit`
 - **CSS custom properties** — fully themeable
 - **Multi-instance safe** — multiple keyboards on one page

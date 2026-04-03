@@ -72,7 +72,7 @@ export const STYLES = `
   grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2.5fr;
 }
 .keyboard_row.fifth_row {
-  grid-template-columns: 1.5fr 9fr 1.5fr;
+  grid-template-columns: 1.5fr 10.5fr;
 }
 
 /* Mobile grid layouts */
@@ -161,8 +161,7 @@ export const STYLES = `
   font-size: 0.75em;
 }
 
-.button.info,
-.button.audio {
+.button.info {
   font-size: 0.85em;
 }
 
