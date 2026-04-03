@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Persian Virtual Keyboard — Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --demo-bg: #f8f9fa;
@@ -12,6 +15,7 @@
       --demo-muted: #666;
       --demo-border: #e0e0e0;
       --demo-accent: #4a90d9;
+      --demo-font: "Noto Sans Arabic", Tahoma, Arial, sans-serif;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -25,7 +29,7 @@
     }
     * { box-sizing: border-box; margin: 0; }
     body {
-      font-family: Tahoma, Arial, sans-serif;
+      font-family: var(--demo-font);
       background: var(--demo-bg);
       color: var(--demo-text);
       padding: 2rem 1rem;
@@ -33,6 +37,7 @@
       margin: 0 auto;
       line-height: 1.6;
     }
+    persian-keyboard { --font-family: var(--demo-font); }
     h1 { margin-bottom: 0.5rem; font-size: 1.5rem; }
     .subtitle { color: var(--demo-muted); margin-bottom: 1.5rem; font-size: 0.9rem; }
     .card {
@@ -55,7 +60,6 @@
       background: var(--demo-bg);
       border: 1px solid var(--demo-border);
       border-radius: 6px;
-      font-family: Tahoma, Arial, sans-serif;
       white-space: pre-wrap;
       word-break: break-word;
       font-size: 0.95rem;
@@ -184,7 +188,6 @@
       background: var(--demo-bg);
       font-weight: 600;
     }
-    .ref-table td { font-family: Tahoma, Arial, sans-serif; }
     .ref-table .key-cell {
       direction: ltr;
       font-family: "SF Mono", "Fira Code", monospace;
