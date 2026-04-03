@@ -18,6 +18,18 @@ A zero-dependency vanilla Web Component for typing Persian (Farsi) text in the b
 - **CSS custom properties** — fully themeable
 - **Multi-instance safe** — multiple keyboards on one page
 
+## Installation
+
+### npm
+```bash
+npm install persian-virtual-keyboard
+```
+
+### CDN (jsDelivr)
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/persian-virtual-keyboard/dist/persian-keyboard.js"></script>
+```
+
 ## Development
 
 ```bash
@@ -32,7 +44,7 @@ npm run build        # Production build
 ### ES Module
 
 ```javascript
-import './src/persian-keyboard.js';
+import 'persian-virtual-keyboard';
 ```
 
 ```html

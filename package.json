@@ -22,7 +22,8 @@
     "build:demo": "vite build --config vite.config.demo.js",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "npm test && npm run build"
   },
   "keywords": [
     "persian",
@@ -34,6 +35,15 @@
     "rtl"
   ],
   "license": "MIT",
+  "author": "Navid Kashani",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/navidkashani/persian-virtual-keyboard.git"
+  },
+  "homepage": "https://github.com/navidkashani/persian-virtual-keyboard",
+  "bugs": {
+    "url": "https://github.com/navidkashani/persian-virtual-keyboard/issues"
+  },
   "devDependencies": {
     "jsdom": "^29.0.1",
     "vite": "^6.3.1",
