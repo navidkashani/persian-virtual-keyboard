@@ -36,7 +36,9 @@ function convertLatinToPersian(text) {
  */
 export function pasteFactory(state, pastedText) {
   let processed;
-  if (isLatin(pastedText) && !(/[\u0600-\u06FF]/).test(pastedText)) {
+  if (state.capsLock) {
+    processed = pastedText;
+  } else if (isLatin(pastedText) && !(/[\u0600-\u06FF]/).test(pastedText)) {
     processed = convertLatinToPersian(pastedText);
   } else {
     processed = normalizePersian(pastedText);

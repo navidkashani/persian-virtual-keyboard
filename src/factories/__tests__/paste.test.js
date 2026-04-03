@@ -41,4 +41,16 @@ describe('pasteFactory', () => {
     const result = pasteFactory(state, 'خداحافظ');
     expect(result.textValue).toBe('خداحافظ');
   });
+
+  it('keeps Latin text as-is in CapsLock mode', () => {
+    const state = { ...baseState, capsLock: true };
+    const result = pasteFactory(state, 'hello');
+    expect(result.textValue).toBe('hello');
+  });
+
+  it('keeps pasted Persian text as-is in CapsLock mode', () => {
+    const state = { ...baseState, capsLock: true };
+    const result = pasteFactory(state, 'سلام');
+    expect(result.textValue).toBe('سلام');
+  });
 });

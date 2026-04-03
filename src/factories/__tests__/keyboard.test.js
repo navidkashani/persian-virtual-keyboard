@@ -132,4 +132,109 @@ describe('keyboardFactory', () => {
     const result = keyboardFactory(makeEvent({ code: 'KeyV', ctrlKey: true }), makeState());
     expect(result).toBeNull();
   });
+
+  // CapsLock mode — non-letter keys
+  it('CapsLock + Digit1 → English 1 (not ۱)', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'Digit1' }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe('1');
+  });
+
+  it('CapsLock + Shift+Digit1 → !', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'Digit1', shiftKey: true }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe('!');
+  });
+
+  it('CapsLock + BracketLeft → [', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'BracketLeft' }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe('[');
+  });
+
+  it('CapsLock + Shift+BracketLeft → {', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'BracketLeft', shiftKey: true }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe('{');
+  });
+
+  it('CapsLock + Semicolon → ;', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'Semicolon' }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe(';');
+  });
+
+  it('CapsLock + Quote → \'', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'Quote' }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe("'");
+  });
+
+  it('CapsLock + Shift+Quote → "', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'Quote', shiftKey: true }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe('"');
+  });
+
+  it('CapsLock + Comma → ,', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'Comma' }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe(',');
+  });
+
+  it('CapsLock + Shift+Comma → <', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'Comma', shiftKey: true }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe('<');
+  });
+
+  it('CapsLock + Shift+Period → >', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'Period', shiftKey: true }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe('>');
+  });
+
+  it('CapsLock + Shift+Slash → ?', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'Slash', shiftKey: true }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe('?');
+  });
+
+  it('CapsLock + Backquote → `', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'Backquote' }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe('`');
+  });
+
+  it('CapsLock + Shift+Backquote → ~', () => {
+    const result = keyboardFactory(
+      makeEvent({ code: 'Backquote', shiftKey: true }),
+      makeState({ capsLock: true }),
+    );
+    expect(result.char).toBe('~');
+  });
 });

@@ -5,9 +5,11 @@ import {
   mobile_button_groups,
   shifted_mobile_button_groups,
   getEnFromCode,
+  getLatinFromEn,
 } from './constants/layout.js';
 import { taskMaster } from './factories/index.js';
 import { keyboardFactory } from './factories/keyboard.js';
+import { letterFactory } from './factories/letter.js';
 import { pasteFactory } from './factories/paste.js';
 import { pushHistory } from './factories/history.js';
 
@@ -210,6 +212,15 @@ class PersianKeyboard extends HTMLElement {
   #renderKeyContent(button, btn) {
     button.innerHTML = '';
 
+    if (this.#state.capsLock && btn.type !== 'modifier') {
+      const main = document.createElement('span');
+      main.className = 'button_value';
+      const latin = getLatinFromEn(btn.en, this.#state.shift);
+      main.textContent = latin || btn.en;
+      button.appendChild(main);
+      return;
+    }
+
     const showShifted = this.getAttribute('show-shifted-value') === 'true';
     const showEnglish = this.getAttribute('show-english-value') === 'true';
 
@@ -229,11 +240,7 @@ class PersianKeyboard extends HTMLElement {
 
     const main = document.createElement('span');
     main.className = 'button_value';
-    if (this.#state.capsLock && btn.type === 'letter') {
-      main.textContent = btn.en.toUpperCase();
-    } else {
-      main.textContent = btn.label;
-    }
+    main.textContent = btn.label;
     button.appendChild(main);
   }
 
@@ -293,16 +300,26 @@ class PersianKeyboard extends HTMLElement {
 
     this.#syncCursorFromTextarea();
 
-    // Find full key object from current layout
-    const groups = this.#getCurrentGroups();
-    let keyObj = null;
-    for (const group of groups) {
-      keyObj = group.buttons.find((b) => b.en === en && b.fa === fa);
-      if (keyObj) break;
+    let result;
+    if (this.#state.capsLock && type !== 'modifier') {
+      const latin = getLatinFromEn(en, this.#state.shift);
+      if (latin) {
+        result = { stateUpdate: letterFactory(this.#state, latin), sealGroup: false, char: latin };
+      }
     }
-    if (!keyObj) return;
 
-    const result = taskMaster(keyObj, this.#state, this.#state.shift);
+    if (!result) {
+      // Normal path: find full key object from current layout
+      const groups = this.#getCurrentGroups();
+      let keyObj = null;
+      for (const group of groups) {
+        keyObj = group.buttons.find((b) => b.en === en && b.fa === fa);
+        if (keyObj) break;
+      }
+      if (!keyObj) return;
+
+      result = taskMaster(keyObj, this.#state, this.#state.shift);
+    }
     if (!result) return;
 
     const { stateUpdate, sealGroup, char } = result;

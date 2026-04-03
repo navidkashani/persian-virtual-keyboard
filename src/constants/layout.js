@@ -103,22 +103,48 @@ export function getEnFromCode(code) {
   return CODE_TO_EN[code] || null;
 }
 
-// Collect all letter keys for Latin mode (CapsLock)
-const LATIN_MAP = {};
-for (const [code, en] of Object.entries(CODE_TO_EN)) {
-  if (code.startsWith('Key')) {
-    LATIN_MAP[code] = { lower: en, upper: en.toUpperCase() };
+// English shifted character mapping (standard US QWERTY)
+const SHIFTED_EN = {
+  '`': '~', '1': '!', '2': '@', '3': '#', '4': '$',
+  '5': '%', '6': '^', '7': '&', '8': '*', '9': '(', '0': ')',
+  '-': '_', '=': '+',
+  '[': '{', ']': '}', '\\': '|',
+  ';': ':', "'": '"',
+  ',': '<', '.': '>', '/': '?',
+};
+
+// CapsLock Latin mode: en key → { normal, shifted } for all non-space keys
+const LATIN_EN_MAP = {};
+for (const en of Object.values(CODE_TO_EN)) {
+  if (en === 'Space') continue;
+  if (en.length === 1 && en >= 'a' && en <= 'z') {
+    // Letters: CapsLock gives uppercase, Shift inverts to lowercase
+    LATIN_EN_MAP[en] = { normal: en.toUpperCase(), shifted: en };
+  } else {
+    LATIN_EN_MAP[en] = { normal: en, shifted: SHIFTED_EN[en] || en };
   }
 }
 
 /**
- * Get Latin character for CapsLock mode.
+ * Get Latin character for CapsLock mode by event.code (physical keyboard path).
  * @param {string} code - KeyboardEvent.code
  * @param {boolean} shifted - Whether Shift is held
  * @returns {string|null}
  */
 export function getLatinFromCode(code, shifted) {
-  const entry = LATIN_MAP[code];
+  const en = CODE_TO_EN[code];
+  if (!en) return null;
+  return getLatinFromEn(en, shifted);
+}
+
+/**
+ * Get Latin character for CapsLock mode by en key (virtual keyboard path).
+ * @param {string} en - The English key identifier (e.g. 'a', '1', '[')
+ * @param {boolean} shifted - Whether Shift is active
+ * @returns {string|null}
+ */
+export function getLatinFromEn(en, shifted) {
+  const entry = LATIN_EN_MAP[en];
   if (!entry) return null;
-  return shifted ? entry.lower : entry.upper; // CapsLock inverts shift behavior
+  return shifted ? entry.shifted : entry.normal;
 }
